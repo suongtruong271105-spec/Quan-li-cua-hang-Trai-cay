@@ -8,4 +8,5 @@ use InventoryService\Controllers\InventoryController;
 Route::prefix('inventory')->group(function () {
     Route::get('/', [InventoryController::class, 'index']);
     Route::post('/', [InventoryController::class, 'store']);
+    Route::post('/deduct', [InventoryController::class, 'deduct']);
 });
