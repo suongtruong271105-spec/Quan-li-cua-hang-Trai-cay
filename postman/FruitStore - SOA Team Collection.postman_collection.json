@@ -1,0 +1,54 @@
+{
+  "info": {
+    "_postman_id": "3125406e-b032-48fe-9ca3-ad54e3373424",
+    "name": "FruitStore - SOA Team Collection",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58523861",
+    "_collection_link": "https://go.postman.co/collection/58523861-3125406e-b032-48fe-9ca3-ad54e3373424?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "01 - ProductService",
+      "item": [],
+      "description": "Phụ trách: Sương\n\nKiểm thử API quản lý sản phẩm:\n\n- Lấy danh sách trái cây\n    \n- Thêm trái cây\n    \n- Cập nhật trái cây\n    \n- Xóa trái cây\n    \n- Tìm kiếm trái cây"
+    },
+    {
+      "name": "02 - InventoryService",
+      "item": [],
+      "description": "Phụ trách: Thư\n\nKiểm thử API quản lý kho:\n\n- Tạo lô hàng\n    \n- Lấy danh sách lô hàng\n    \n- Xem tổng số lượng tồn kho"
+    },
+    {
+      "name": "03 - OrderService",
+      "item": [],
+      "description": "Phụ trách: Nam\n\nKiểm thử API quản lý đơn hàng:\n\n- Tạo đơn hàng\n    \n- Lấy danh sách đơn hàng\n    \n- Cập nhật trạng thái đơn hàng"
+    },
+    {
+      "name": "04 - UserService",
+      "item": [],
+      "description": "Phụ trách: Mlo\n\nKiểm thử API người dùng:\n\n- Đăng ký\n    \n- Đăng nhập\n    \n- Xác thực và phân quyền"
+    }
+  ],
+  "variable": [
+    {
+      "key": "product_service_url",
+      "value": ""
+    },
+    {
+      "key": "inventory_service_url",
+      "value": ""
+    },
+    {
+      "key": "order_service_url",
+      "value": ""
+    },
+    {
+      "key": "user_service_url",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ]
+}
