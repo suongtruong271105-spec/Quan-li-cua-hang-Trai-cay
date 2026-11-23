@@ -4,6 +4,7 @@ namespace InventoryService\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use InventoryService\Models\InventoryBatch;
 
@@ -30,11 +31,12 @@ class InventoryController extends Controller
     }
 
     /**
-     * GET /api/inventory?fruit_id=1 - Xem danh sách lô & tính tổng tồn kho
+     * GET /api/inventory?fruit_id=1 - Xem danh sách lô, tính tổng tồn kho & gắn cảnh báo hạn
      */
     public function index(Request $request)
     {
         $fruitId = $request->query('fruit_id');
+        $today = Carbon::today();
 
         $query = InventoryBatch::query()
             ->where('quantity_kg', '>', 0) // Chỉ lấy các lô còn tồn kho
@@ -46,13 +48,53 @@ class InventoryController extends Controller
             $query->where('fruit_id', (int) $fruitId);
         }
 
-        $batches = $query->get();
+        $batches = $query->get()->map(function ($batch) use ($today) {
+            $expiry = Carbon::parse($batch->expiry_date)->startOfDay();
+            $daysRemaining = (int) $today->diffInDays($expiry, false);
+
+            $batch->days_remaining = $daysRemaining;
+            $batch->is_expiring_soon = $daysRemaining <= 3; // Cảnh báo nếu còn <= 3 ngày
+            return $batch;
+        });
+
         $totalStockKg = round((float) $batches->sum('quantity_kg'), 2);
 
         return response()->json([
             'fruit_id'       => ($fruitId !== null && $fruitId !== '') ? (int) $fruitId : 'all',
             'total_stock_kg' => $totalStockKg,
             'total_batches'  => $batches->count(),
+            'batches'        => $batches,
+        ], 200);
+    }
+
+    /**
+     * GET /api/inventory/expiring?days=3 - Lọc danh sách các lô hàng sắp hết hạn
+     */
+    public function expiring(Request $request)
+    {
+        $days = (int) $request->query('days', 3);
+        $today = Carbon::today();
+        $thresholdDate = $today->copy()->addDays($days)->toDateString();
+
+        $batches = InventoryBatch::query()
+            ->where('quantity_kg', '>', 0)
+            ->whereDate('expiry_date', '<=', $thresholdDate)
+            ->orderBy('expiry_date', 'asc')
+            ->orderBy('import_date', 'asc')
+            ->get()
+            ->map(function ($batch) use ($today) {
+                $expiry = Carbon::parse($batch->expiry_date)->startOfDay();
+                $daysRemaining = (int) $today->diffInDays($expiry, false);
+
+                $batch->days_remaining = $daysRemaining;
+                $batch->is_expiring_soon = true;
+                $batch->warning_status = $daysRemaining < 0 ? 'Đã hết hạn' : 'Sắp hết hạn';
+                return $batch;
+            });
+
+        return response()->json([
+            'filter_days'    => $days,
+            'total_warnings' => $batches->count(),
             'batches'        => $batches,
         ], 200);
     }
@@ -138,7 +180,7 @@ class InventoryController extends Controller
             });
 
             return response()->json([
-                'message' => 'Trừ kho FIFO thành công',
+                'message' => 'Trừ kho thành công (FIFO)',
                 'details' => $deductionLogs,
             ], 200);
         } catch (\RuntimeException $e) {
