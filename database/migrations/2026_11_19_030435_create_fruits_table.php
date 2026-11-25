@@ -17,6 +17,7 @@ public function up(): void
         $table->decimal('price_per_kg', 10, 2);
         $table->string('origin')->nullable();
         $table->text('description')->nullable();
+        $table->string('image_url')->nullable(); // <-- Thêm dòng này
         $table->timestamps();
     });
 }
