@@ -43,7 +43,7 @@
 
 @section('scripts')
 <script>
-    const PRODUCT_ID = {{ $id }};
+    const PRODUCT_ID = {{$id}};
     const API_URL = `/api/products/${PRODUCT_ID}`;
 
     // Tự động tải dữ liệu cũ điền vào form
