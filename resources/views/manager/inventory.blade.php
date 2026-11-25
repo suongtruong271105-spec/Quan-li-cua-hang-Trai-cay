@@ -76,7 +76,7 @@
                         <span class="text-[#D97757]">Lô Hàng Trái Cây</span>
                     </h1>
                     <p class="text-sm text-slate-600 mt-1.5 max-w-xl">
-                        Theo dõi tồn kho theo nguyên tắc xuất trước <strong>FIFO</strong> và tự động cảnh báo các lô hàng sắp hết hạn để đảm bảo độ tươi ngon mỗi ngày.
+                        Vận hành kho thông minh theo chuẩn <strong>FIFO</strong> — chủ động cảnh báo cận hạn để mọi lô trái cây luôn đạt độ tươi chuẩn vị.
                     </p>
                 </div>
 
@@ -123,13 +123,33 @@
                 <div id="alert-box" class="hidden mb-4 p-3.5 rounded-xl text-xs font-medium"></div>
 
                 <form id="import-form" class="space-y-4">
-                    <div>
-                        <label for="fruit_id" class="block text-xs font-semibold uppercase tracking-wide text-slate-600 mb-1.5">
-                            Mã trái cây (Fruit ID)
+                    <div class="relative" id="fruit-dropdown-wrapper">
+                        <label class="block text-xs font-semibold uppercase tracking-wide text-slate-600 mb-1.5">
+                            Loại trái cây
                         </label>
-                        <input type="number" id="fruit_id" list="fruit-options" min="1" required placeholder="Nhập mã VD: 1"
-                               class="w-full px-3.5 py-2.5 text-sm bg-slate-50/70 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-[#247144] focus:ring-2 focus:ring-[#247144]/15 transition">
-                        <datalist id="fruit-options"></datalist>
+                        <!-- Input ẩn lưu giá trị ID thực tế để submit form -->
+                        <input type="hidden" id="fruit_id" required>
+
+                        <!-- Nút hiển thị giá trị đã chọn -->
+                        <button type="button" id="fruit-dropdown-btn"
+                                class="w-full px-3.5 py-2.5 text-sm bg-slate-50/70 border border-slate-200 rounded-xl flex items-center justify-between text-left hover:bg-white focus:bg-white focus:outline-none focus:border-[#247144] focus:ring-2 focus:ring-[#247144]/15 transition cursor-pointer">
+                            <span id="fruit-selected-label" class="text-slate-400 truncate">-- Chọn loại trái cây --</span>
+                            <svg class="w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200" id="fruit-dropdown-arrow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <!-- Menu xổ xuống bo góc & có thanh tìm kiếm -->
+                        <div id="fruit-dropdown-menu"
+                             class="hidden absolute z-30 mt-1.5 w-full bg-white border border-slate-200/90 rounded-2xl shadow-xl overflow-hidden">
+                            <div class="p-2 border-b border-slate-100 bg-slate-50/60">
+                                <input type="text" id="fruit-search-input" placeholder="Tìm tên hoặc mã trái cây..."
+                                       class="w-full px-3 py-1.5 text-xs bg-white border border-slate-200 rounded-lg focus:outline-none focus:border-[#247144]">
+                            </div>
+                            <ul id="fruit-dropdown-list" class="max-h-52 overflow-y-auto divide-y divide-slate-50 py-1 text-sm">
+                                <li class="px-3.5 py-2.5 text-xs text-slate-400 text-center">Đang tải danh sách...</li>
+                            </ul>
+                        </div>
                     </div>
 
                     <div>
@@ -187,7 +207,7 @@
                         <button id="btn-expiring" onclick="loadExpiringBatches()"
                                 class="px-4 py-2 text-xs font-semibold bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-full transition cursor-pointer flex items-center gap-1.5">
                             <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                            <span>Sắp hết hạn (≤ 3 ngày)</span>
+                            <span>Sắp hết hạn</span>
                         </button>
                     </div>
                 </div>
