@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use InventoryService\Controllers\InventoryController;
 use ProductService\Controllers\ProductController;
+use UserService\Controllers\AuthController;
+use UserService\Controllers\UserController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

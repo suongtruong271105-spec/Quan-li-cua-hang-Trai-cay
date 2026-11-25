@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace UserService\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
@@ -19,6 +19,11 @@ class User extends Authenticatable implements JWTSubject
     use HasFactory, Notifiable;
 
     protected $connection = 'user_sqlite';
+
+    protected static function newFactory(): UserFactory
+    {
+        return UserFactory::new();
+    }
 
     public function getJWTIdentifier(): mixed
     {

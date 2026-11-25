@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use UserService\Models\User;
 
 class UserServiceTest extends TestCase
 {

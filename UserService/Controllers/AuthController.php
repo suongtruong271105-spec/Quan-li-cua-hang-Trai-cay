@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace UserService\Controllers;
 
-use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use UserService\Models\User;
 
 class AuthController extends Controller
 {
