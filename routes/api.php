@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use InventoryService\Controllers\InventoryController;
+use ProductService\Controllers\ProductController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -19,3 +21,11 @@ Route::middleware('auth:api')->group(function () {
         Route::delete('/users/{id}', [UserController::class, 'destroy']);
     });
 });
+
+// INVENTORY SERVICE - Quản lý kho & lô hàng
+Route::prefix('inventory')->group(function () {
+    Route::get('/', [InventoryController::class, 'index']);
+    Route::post('/', [InventoryController::class, 'store']);
+});
+
+Route::apiResource('products', ProductController::class);
