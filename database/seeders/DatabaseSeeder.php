@@ -8,15 +8,55 @@ use Illuminate\Support\Facades\DB;
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seed database cho OrderService (order_db.sqlite)
+     * Seed database cho toàn bộ hệ thống
      */
     public function run(): void
     {
-        // Xóa dữ liệu cũ nếu có
+        // 1. Seed ProductService (15 loại trái cây)
+        $this->call(ProductSeeder::class);
+
+        // 2. Seed InventoryService (Các lô hàng tồn kho)
+        DB::connection('inventory_sqlite')->table('inventory_batches')->truncate();
+        DB::connection('inventory_sqlite')->table('inventory_batches')->insert([
+            [
+                'fruit_id' => 1, // Xoài Cát Hòa Lộc
+                'quantity_kg' => 50.0,
+                'import_date' => '2026-11-01',
+                'expiry_date' => '2026-12-01',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'fruit_id' => 1,
+                'quantity_kg' => 70.0,
+                'import_date' => '2026-11-10',
+                'expiry_date' => '2026-12-10',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'fruit_id' => 2, // Sầu Riêng Ri6
+                'quantity_kg' => 80.0,
+                'import_date' => '2026-11-05',
+                'expiry_date' => '2026-12-05',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'fruit_id' => 3, // Táo Envy Mỹ
+                'quantity_kg' => 100.0,
+                'import_date' => '2026-11-08',
+                'expiry_date' => '2026-12-08',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+
+        // 3. Seed OrderService (Các đơn hàng mẫu)
         DB::connection('order_sqlite')->table('order_items')->truncate();
         DB::connection('order_sqlite')->table('orders')->truncate();
 
-        // 1. Đơn hàng hoàn thành
+        // Đơn 1: Hoàn thành
         $order1Id = DB::connection('order_sqlite')->table('orders')->insertGetId([
             'user_id' => 1,
             'total_amount' => 360000,
@@ -27,7 +67,7 @@ class DatabaseSeeder extends Seeder
         DB::connection('order_sqlite')->table('order_items')->insert([
             [
                 'order_id' => $order1Id,
-                'fruit_id' => 1, // Táo Envy
+                'fruit_id' => 3, // Táo Envy
                 'quantity_kg' => 3.0,
                 'unit_price' => 120000,
                 'created_at' => now()->subDays(2),
@@ -35,10 +75,10 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
-        // 2. Đơn hàng đang xử lý
+        // Đơn 2: Đang xử lý
         $order2Id = DB::connection('order_sqlite')->table('orders')->insertGetId([
             'user_id' => 2,
-            'total_amount' => 440000,
+            'total_amount' => 290000,
             'status' => 'processing',
             'created_at' => now()->subDay(),
             'updated_at' => now()->subDay(),
@@ -46,26 +86,18 @@ class DatabaseSeeder extends Seeder
         DB::connection('order_sqlite')->table('order_items')->insert([
             [
                 'order_id' => $order2Id,
-                'fruit_id' => 2, // Cam Sành
+                'fruit_id' => 2, // Sầu Riêng
                 'quantity_kg' => 2.0,
-                'unit_price' => 45000,
-                'created_at' => now()->subDay(),
-                'updated_at' => now()->subDay(),
-            ],
-            [
-                'order_id' => $order2Id,
-                'fruit_id' => 3, // Nho Mẫu Đơn
-                'quantity_kg' => 1.0,
-                'unit_price' => 350000,
+                'unit_price' => 145000,
                 'created_at' => now()->subDay(),
                 'updated_at' => now()->subDay(),
             ],
         ]);
 
-        // 3. Đơn hàng chờ thanh toán
+        // Đơn 3: Chờ thanh toán
         $order3Id = DB::connection('order_sqlite')->table('orders')->insertGetId([
             'user_id' => 3,
-            'total_amount' => 170000,
+            'total_amount' => 130000,
             'status' => 'pending_payment',
             'created_at' => now(),
             'updated_at' => now(),
@@ -73,9 +105,9 @@ class DatabaseSeeder extends Seeder
         DB::connection('order_sqlite')->table('order_items')->insert([
             [
                 'order_id' => $order3Id,
-                'fruit_id' => 4, // Xoài Cát
+                'fruit_id' => 1, // Xoài Cát
                 'quantity_kg' => 2.0,
-                'unit_price' => 85000,
+                'unit_price' => 65000,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
