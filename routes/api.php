@@ -10,6 +10,7 @@ use UserService\Controllers\UserController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+
 Route::middleware('auth:api')->group(function () {
     Route::get('/me', fn(Request $request) => response()->json([
         'user' => $request->user('api'),
@@ -22,6 +23,10 @@ Route::middleware('auth:api')->group(function () {
     });
 });
 
+
+Route::apiResource('products', ProductController::class);
+
+
 // INVENTORY SERVICE - Quản lý kho & lô hàng
 Route::prefix('inventory')->group(function () {
     Route::get('/', [InventoryController::class, 'index']);
@@ -29,5 +34,3 @@ Route::prefix('inventory')->group(function () {
     Route::post('/', [InventoryController::class, 'store']);
     Route::post('/deduct', [InventoryController::class, 'deduct']);
 });
-
-Route::apiResource('products', ProductController::class);

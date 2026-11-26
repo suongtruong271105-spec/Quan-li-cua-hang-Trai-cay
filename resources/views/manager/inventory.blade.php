@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản Lý Kho & Lô Hàng - FruitStore</title>
+@extends('layouts.admin')
+
+@section('title', 'Quản Lý Kho & Lô Hàng - FruitStore')
+
+@section('styles')
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,57 +12,16 @@
             font-family: 'Be Vietnam Pro', sans-serif;
             background-color: #F8FAF8;
         }
+        .navbar a {
+            text-decoration: none;
+        }
     </style>
-</head>
-<body class="text-slate-800 min-h-screen flex flex-col">
+@endsection
 
-    <!-- Top Navbar đồng bộ với FruitStore -->
-    <header class="bg-[#247144] text-white shadow-sm sticky top-0 z-30">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <!-- Brand Logo -->
-            <a href="/" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center shadow-inner">
-                    <svg class="w-6 h-6 text-[#FACC15]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                    </svg>
-                </div>
-                <div>
-                    <div class="text-xl font-extrabold tracking-tight leading-none">
-                        <span class="text-white">Fruit</span><span class="text-[#FACC15]">Store</span>
-                    </div>
-                    <span class="text-[9px] font-semibold tracking-[0.2em] text-emerald-100/90 uppercase block mt-0.5">
-                        FRESH FROM NATURE
-                    </span>
-                </div>
-            </a>
+@section('content')
+    <div class="pb-8 text-slate-800">
 
-            <!-- Navigation Links -->
-            <nav class="flex items-center gap-2 sm:gap-3 text-sm">
-                <a href="/" class="px-3.5 py-2 rounded-xl text-emerald-50 hover:bg-white/10 transition flex items-center gap-2">
-                    <svg class="w-4 h-4 opacity-85" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                    </svg>
-                    <span class="hidden sm:inline">Cửa hàng</span>
-                </a>
-
-                <a href="{{ route('manager.inventory') }}" class="px-4 py-2 rounded-xl bg-white/20 border border-white/25 text-white font-semibold shadow-sm flex items-center gap-2">
-                    <svg class="w-4 h-4 text-[#FACC15]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                    </svg>
-                    <span>Quản lý kho</span>
-                </a>
-
-                <div class="hidden md:flex items-center pl-4 ml-2 border-l border-white/20 text-xs text-emerald-100 font-medium">
-                    Warehouse &amp; FIFO
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1">
-
-        <!-- Hero / Header Banner theo phong cách card bo góc của Thảo -->
+        <!-- Hero / Header Banner -->
         <div class="bg-gradient-to-r from-[#EFF6F1] via-[#F4F9F5] to-[#FDF8EC] border border-[#247144]/10 rounded-3xl p-6 sm:p-8 mb-8 shadow-sm">
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div>
@@ -127,10 +85,8 @@
                         <label class="block text-xs font-semibold uppercase tracking-wide text-slate-600 mb-1.5">
                             Loại trái cây
                         </label>
-                        <!-- Input ẩn lưu giá trị ID thực tế để submit form -->
                         <input type="hidden" id="fruit_id" required>
 
-                        <!-- Nút hiển thị giá trị đã chọn -->
                         <button type="button" id="fruit-dropdown-btn"
                                 class="w-full px-3.5 py-2.5 text-sm bg-slate-50/70 border border-slate-200 rounded-xl flex items-center justify-between text-left hover:bg-white focus:bg-white focus:outline-none focus:border-[#247144] focus:ring-2 focus:ring-[#247144]/15 transition cursor-pointer">
                             <span id="fruit-selected-label" class="text-slate-400 truncate">-- Chọn loại trái cây --</span>
@@ -139,7 +95,6 @@
                             </svg>
                         </button>
 
-                        <!-- Menu xổ xuống bo góc & có thanh tìm kiếm -->
                         <div id="fruit-dropdown-menu"
                              class="hidden absolute z-30 mt-1.5 w-full bg-white border border-slate-200/90 rounded-2xl shadow-xl overflow-hidden">
                             <div class="p-2 border-b border-slate-100 bg-slate-50/60">
@@ -194,7 +149,6 @@
                         <h2 class="text-lg font-bold text-slate-900 mt-0.5">Danh sách lô hàng tồn kho</h2>
                     </div>
 
-                    <!-- Thanh lọc theo phong cách nút pill -->
                     <div class="flex flex-wrap items-center gap-2">
                         <input type="number" id="filter-fruit-id" min="1" placeholder="Lọc Fruit ID..."
                                class="w-32 px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-full focus:bg-white focus:outline-none focus:border-[#247144] focus:ring-2 focus:ring-[#247144]/15">
@@ -249,8 +203,9 @@
                 </div>
             </section>
         </div>
-    </main>
+    </div>
+@endsection
 
+@section('scripts')
     <script src="{{ asset('js/inventory.js') }}"></script>
-</body>
-</html>
+@endsection
