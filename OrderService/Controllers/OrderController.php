@@ -219,7 +219,7 @@ class OrderController
                 }
             }
             if ($response->status() === 404) {
-                throw new \Exception("Không tìm thấy trái cây ID #{$fruitId} từ ProductService.");
+                throw new \Exception("404 tại URL: {$serviceUrl}/products/{$fruitId}");
             }
         } catch (\Throwable $e) {
             if (str_contains($e->getMessage(), 'Không tìm thấy trái cây')) {
@@ -237,7 +237,7 @@ class OrderController
      */
     protected function deductStockFromInventoryServiceFIFO(int $fruitId, float $quantityKg): void
     {
-        $serviceUrl = env('INVENTORY_SERVICE_URL', 'http://localhost:8000/api/inventory');
+       $serviceUrl = env('PRODUCT_SERVICE_URL', 'http://127.0.0.1:8002/api/products');
 
         try {
             $response = Http::timeout(3)->acceptJson()->post("{$serviceUrl}/deduct", [

@@ -54,7 +54,7 @@
             description: document.getElementById('description').value.trim(),
         };
 
-        const res = await fetch('/api/products', {
+        const res = await fetch(`${window.API_CONFIG.PRODUCT_URL}/products`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

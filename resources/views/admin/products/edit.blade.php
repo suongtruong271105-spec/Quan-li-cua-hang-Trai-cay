@@ -43,8 +43,8 @@
 
 @section('scripts')
 <script>
-    const PRODUCT_ID = {{$id}};
-    const API_URL = `/api/products/${PRODUCT_ID}`;
+const PRODUCT_ID = {{$id}};
+const API_URL = `${window.API_CONFIG.PRODUCT_URL}/products/${PRODUCT_ID}`;
 
     // Tự động tải dữ liệu cũ điền vào form
     document.addEventListener('DOMContentLoaded', async () => {

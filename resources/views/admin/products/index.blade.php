@@ -42,7 +42,7 @@
 
 @section('scripts')
 <script>
-    const API_URL = '/api/products';
+   const API_URL = `${window.API_CONFIG.PRODUCT_URL}/products`;
 
     document.addEventListener('DOMContentLoaded', () => {
         loadProducts();

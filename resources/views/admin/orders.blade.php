@@ -16,6 +16,7 @@
         .badge-completed { background-color: #D1FAE5; color: #065F46; border: 1px solid #6EE7B7; }
         .badge-cancelled { background-color: #FEE2E2; color: #991B1B; border: 1px solid #FCA5A5; }
     </style>
+    <script src="{{ asset('js/config.js') }}"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans">
 
@@ -321,7 +322,7 @@
         // 1. Fetch Statistics (Tổng số đơn, tổng doanh thu, tình hình kinh doanh)
         async function fetchStatistics() {
             try {
-                const res = await fetch('/api/orders/statistics');
+               const res = await fetch(`${window.API_CONFIG.ORDER_URL}/orders/statistics`);
                 const result = await res.json();
                 if (res.ok && result.data) {
                     const data = result.data;
@@ -338,7 +339,7 @@
         // 2. Fetch Orders List
         async function fetchOrders() {
             const status = document.getElementById('statusFilter').value;
-            let url = '/api/orders';
+            let url = `${window.API_CONFIG.ORDER_URL}/orders`
             if (status) {
                 url += `?status=${encodeURIComponent(status)}`;
             }
@@ -420,7 +421,7 @@
             if (!newStatus) return;
 
             try {
-                const res = await fetch(`/api/orders/${orderId}/status`, {
+                const res = await fetch(`${window.API_CONFIG.ORDER_URL}/orders/${orderId}/status`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -445,7 +446,7 @@
         // 4. View Order Detail Modal
         async function viewOrderDetail(orderId) {
             try {
-                const res = await fetch(`/api/orders/${orderId}`);
+                const res = await fetch(`${window.API_CONFIG.ORDER_URL}/orders/${orderId}`);
                 const result = await res.json();
 
                 if (res.ok && result.data) {
@@ -508,7 +509,7 @@
             const quantityKg = parseFloat(document.getElementById('createQuantityKg').value);
 
             try {
-                const res = await fetch('/api/orders', {
+                const res = await fetch(`${window.API_CONFIG.ORDER_URL}/orders`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

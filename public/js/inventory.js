@@ -76,7 +76,7 @@ async function loadProductCatalog() {
     });
 
     try {
-        const res = await fetch('/api/products', { headers: { 'Accept': 'application/json' } });
+       const res = await fetch(`${window.API_CONFIG.PRODUCT_URL}/products`, { headers: { 'Accept': 'application/json' } });
         if (!res.ok) throw new Error('API Error');
 
         const payload = await res.json();
@@ -165,8 +165,9 @@ function renderTable(batches) {
 
 async function loadAllBatches() {
     const fruitId = document.getElementById('filter-fruit-id').value;
-    const url = fruitId ? `/api/inventory?fruit_id=${fruitId}` : '/api/inventory';
-
+    const url = fruitId
+    ? `${window.API_CONFIG.INVENTORY_URL}/inventory?fruit_id=${fruitId}`
+    : `${window.API_CONFIG.INVENTORY_URL}/inventory`;
     const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
     const data = await res.json();
 
@@ -178,7 +179,7 @@ async function loadAllBatches() {
 }
 
 async function loadExpiringBatches() {
-    const res = await fetch('/api/inventory/expiring?days=3', { headers: { 'Accept': 'application/json' } });
+  const res = await fetch(`${window.API_CONFIG.INVENTORY_URL}/inventory/expiring?days=3`, { headers: { 'Accept': 'application/json' } });
     const data = await res.json();
 
     document.getElementById('stat-warning-count').textContent = `${data.total_warnings} lô`;
@@ -202,7 +203,7 @@ document.getElementById('import-form').addEventListener('submit', async (e) => {
         expiry_date: document.getElementById('expiry_date').value,
     };
 
-    const res = await fetch('/api/inventory', {
+    const res = await fetch(`${window.API_CONFIG.INVENTORY_URL}/inventory`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

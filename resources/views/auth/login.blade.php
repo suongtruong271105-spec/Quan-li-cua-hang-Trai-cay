@@ -34,7 +34,7 @@
             message.textContent = '';
 
             try {
-                const payload = await window.Auth.apiFetch('/api/login', {
+              const payload = await window.Auth.apiFetch(`${window.API_CONFIG.USER_URL}/login`, {
                     method: 'POST',
                     body: {
                         email: form.elements.email.value,
@@ -42,7 +42,14 @@
                     },
                 });
                 window.Auth.saveAuth(payload);
-                window.location.assign('/fruits');
+
+             const role = payload.user?.role || payload.data?.user?.role;
+
+                if (role === 'admin') {
+                    window.location.assign('/admin/products');
+                } else {
+                    window.location.assign('/customer/store'); // Đổi lại cho khớp với đường dẫn trang khách hàng trong routes/web.php
+                }
             } catch (error) {
                 message.textContent = error.message;
             } finally {
