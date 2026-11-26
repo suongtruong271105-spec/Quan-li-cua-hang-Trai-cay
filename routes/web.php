@@ -60,3 +60,7 @@ Route::get('/admin/products/create', function () {
 Route::get('/admin/products/{id}/edit', function ($id) {
     return view('admin.products.edit', ['id' => $id]);
 })->name('admin.products.edit');
+
+
+Route::view('manager/inventory', 'manager.inventory')
+    ->name('manager.inventory');

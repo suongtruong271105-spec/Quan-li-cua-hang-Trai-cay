@@ -20,8 +20,9 @@ use UserService\Controllers\UserController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+
 Route::middleware('auth:api')->group(function () {
-    Route::get('/me', fn (Request $request) => response()->json([
+    Route::get('/me', fn(Request $request) => response()->json([
         'user' => $request->user('api'),
     ]));
 
@@ -62,5 +63,7 @@ Route::prefix('fruits')->group(function () {
 // ==========================================
 Route::prefix('inventory')->group(function () {
     Route::get('/', [InventoryController::class, 'index']);
+    Route::get('/expiring', [InventoryController::class, 'expiring']);
     Route::post('/', [InventoryController::class, 'store']);
+    Route::post('/deduct', [InventoryController::class, 'deduct']);
 });
