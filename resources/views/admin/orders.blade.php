@@ -307,7 +307,7 @@
             const toastMessage = document.getElementById('toastMessage');
 
             toastMessage.innerText = message;
-            toastContent.className = isSuccess 
+            toastContent.className = isSuccess
                 ? 'flex items-center space-x-3 px-4 py-3 rounded-xl shadow-lg text-xs font-medium text-white bg-emerald-600'
                 : 'flex items-center space-x-3 px-4 py-3 rounded-xl shadow-lg text-xs font-medium text-white bg-rose-600';
             toastIcon.innerHTML = isSuccess ? '<i class="fa-solid fa-circle-check"></i>' : '<i class="fa-solid fa-circle-xmark"></i>';
@@ -380,7 +380,7 @@
                                     <span class="inline-flex items-center gap-1.5"><i class="fa-regular fa-user text-slate-400"></i> Khách #${order.user_id}</span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-slate-600">
-                                    <span class="font-medium">${itemCount} loại</span> 
+                                    <span class="font-medium">${itemCount} loại</span>
                                     <span class="text-xs text-slate-400">(${totalKg} kg)</span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap font-bold text-emerald-700">
