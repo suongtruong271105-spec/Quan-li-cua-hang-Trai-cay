@@ -44,6 +44,7 @@ return [
             'transaction_mode' => 'DEFERRED',
         ],
 
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
