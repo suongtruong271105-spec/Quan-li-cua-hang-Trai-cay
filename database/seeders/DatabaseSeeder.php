@@ -4,18 +4,42 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use UserService\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seed database cho toàn bộ hệ thống
+     * Seed database cho toàn bộ hệ thống (User, Product, Inventory, Order)
      */
     public function run(): void
     {
-        // 1. Seed ProductService (15 loại trái cây)
-        $this->call(ProductSeeder::class);
+        // 1. Seed UserService (Tài khoản mẫu)
+        if (class_exists(User::class)) {
+            User::firstOrCreate(
+                ['email' => 'test@example.com'],
+                [
+                    'name' => 'Test User',
+                    'password' => bcrypt('password'),
+                    'role' => 'customer',
+                ]
+            );
 
-        // 2. Seed InventoryService (Các lô hàng tồn kho)
+            User::firstOrCreate(
+                ['email' => 'admin@example.com'],
+                [
+                    'name' => 'Admin User',
+                    'password' => bcrypt('admin123'),
+                    'role' => 'admin',
+                ]
+            );
+        }
+
+        // 2. Seed ProductService (15 loại trái cây)
+        if (class_exists(ProductSeeder::class)) {
+            $this->call(ProductSeeder::class);
+        }
+
+        // 3. Seed InventoryService (Các lô hàng tồn kho)
         DB::connection('inventory_sqlite')->table('inventory_batches')->truncate();
         DB::connection('inventory_sqlite')->table('inventory_batches')->insert([
             [
@@ -52,7 +76,7 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
-        // 3. Seed OrderService (Các đơn hàng mẫu)
+        // 4. Seed OrderService (Các đơn hàng mẫu)
         DB::connection('order_sqlite')->table('order_items')->truncate();
         DB::connection('order_sqlite')->table('orders')->truncate();
 

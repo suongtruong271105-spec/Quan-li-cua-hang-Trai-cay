@@ -1,9 +1,12 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use InventoryService\Controllers\InventoryController;
 use ProductService\Controllers\ProductController;
 use OrderService\Controllers\OrderController;
+use UserService\Controllers\AuthController;
+use UserService\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +15,25 @@ use OrderService\Controllers\OrderController;
 */
 
 // ==========================================
-// 1. ORDER SERVICE (Phân hệ Xử lý Đơn hàng)
+// 1. USER SERVICE (Xác thực & Người dùng)
+// ==========================================
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::middleware('auth:api')->group(function () {
+    Route::get('/me', fn (Request $request) => response()->json([
+        'user' => $request->user('api'),
+    ]));
+
+    Route::prefix('admin')->group(function () {
+        Route::get('/users', [UserController::class, 'index']);
+        Route::patch('/users/{id}/role', [UserController::class, 'updateRole']);
+        Route::delete('/users/{id}', [UserController::class, 'destroy']);
+    });
+});
+
+// ==========================================
+// 2. ORDER SERVICE (Phân hệ Xử lý Đơn hàng)
 // ==========================================
 Route::prefix('orders')->group(function () {
     Route::get('/statistics', [OrderController::class, 'statistics']);
@@ -23,7 +44,7 @@ Route::prefix('orders')->group(function () {
 });
 
 // ==========================================
-// 2. PRODUCT SERVICE (Quản lý Trái cây)
+// 3. PRODUCT SERVICE (Quản lý Trái cây)
 // ==========================================
 Route::apiResource('products', ProductController::class);
 
@@ -37,7 +58,7 @@ Route::prefix('fruits')->group(function () {
 });
 
 // ==========================================
-// 3. INVENTORY SERVICE (Quản lý kho & FIFO)
+// 4. INVENTORY SERVICE (Quản lý kho & FIFO)
 // ==========================================
 Route::prefix('inventory')->group(function () {
     Route::get('/', [InventoryController::class, 'index']);
