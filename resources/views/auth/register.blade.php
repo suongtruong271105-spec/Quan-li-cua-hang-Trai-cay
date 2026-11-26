@@ -40,7 +40,7 @@
             message.textContent = '';
 
             try {
-                const payload = await window.Auth.apiFetch('/api/register', {
+               const payload = await window.Auth.apiFetch(`${window.API_CONFIG.USER_URL}/register`, {
                     method: 'POST',
                     body: {
                         name: form.elements.name.value,
@@ -50,7 +50,7 @@
                     },
                 });
                 window.Auth.saveAuth(payload);
-                window.location.assign('/fruits');
+                window.location.assign('/customer/store');
             } catch (error) {
                 message.textContent = error.message;
             } finally {

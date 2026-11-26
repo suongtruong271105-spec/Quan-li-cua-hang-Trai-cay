@@ -31,12 +31,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // API CONFIGURATION
     // =====================================
 
-    const API_URL = (
-        window.APP_CONFIG?.API_URL ||
+   const PRODUCTS_URL = (
+        window.API_CONFIG?.PRODUCT_URL ||
         `${window.location.origin}/api`
-    ).replace(/\/+$/, '');
+    ).replace(/\/+$/, '') + '/products';
 
-    const PRODUCTS_URL = API_URL + '/products';
 
     const DEFAULT_IMAGE =
         'https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=500&q=85';

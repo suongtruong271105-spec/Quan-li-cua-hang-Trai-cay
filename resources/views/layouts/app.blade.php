@@ -314,7 +314,8 @@
         @yield('content')
     </main>
 
-    <script src="{{ asset('js/auth.js') }}"></script>
-    @stack('scripts')
+   <script src="{{ asset('js/config.js') }}"></script>
+<script src="{{ asset('js/auth.js') }}"></script>
+@stack('scripts')
 </body>
 </html>

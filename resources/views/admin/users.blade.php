@@ -85,7 +85,7 @@
             }
 
             async function loadUsers() {
-                const payload = await window.Auth.apiFetch('/api/admin/users');
+               const payload = await window.Auth.apiFetch(`${window.API_CONFIG.USER_URL}/admin/users`);
                 if (!Array.isArray(payload.data)) {
                     throw new Error('Phản hồi danh sách người dùng không hợp lệ.');
                 }
@@ -120,7 +120,7 @@
 
                 select.disabled = true;
                 try {
-                    const payload = await window.Auth.apiFetch(`/api/admin/users/${select.dataset.userId}/role`, {
+                    const payload = await window.Auth.apiFetch(`${window.API_CONFIG.USER_URL}/admin/users/${select.dataset.userId}/role`, {
                         method: 'PATCH',
                         body: { role: select.value },
                     });
@@ -159,7 +159,7 @@
 
                 button.disabled = true;
                 try {
-                    const payload = await window.Auth.apiFetch(`/api/admin/users/${button.dataset.deleteUser}`, {
+                    const payload = await window.Auth.apiFetch(`${window.API_CONFIG.USER_URL}/admin/users/${button.dataset.deleteUser}`, {
                         method: 'DELETE',
                     });
                     message.textContent = payload.message;
